@@ -75,12 +75,12 @@
     <script>
       // Vue app setup
 
-      Vue.createApp({
+      let app = Vue.createApp({
         computed:{
             navbarClasses(){
                 return{
-                    'bg-black' : !useDarkMode, 
-                    'bg-gray-500':useDarkMode
+                    'bg-black' : !this.useDarkMode, 
+                    'bg-gray-500':this.useDarkMode
                 }
             }
 
@@ -108,7 +108,8 @@
             ],
           };
         },
-      }).mount("body");
+      });
+      app.mount("body");
 
       // Toggle mobile menu
       const menuBtn = document.getElementById("menu-btn");
