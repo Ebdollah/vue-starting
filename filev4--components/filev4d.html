@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Events: Using Computed properties</title>
+    <!-- Include Tailwind CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-gray-100">
+    <!-- Navbar -->
+
+    <!-- Main content -->
+     <todo></todo>
+
+    <!-- Vue.js -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+      // Vue app setup
+
+      let app = Vue.createApp({});
+      app.component('todo',{
+        data(){
+            return{
+                task: 'Learn Vue js'
+            }
+        },
+        template:`
+        <div>
+            <button class='bg-blue-400 p-4 m-4 w-44 h-20 rounded-md' @click='remove'>Remove</button>
+            <p class='bg-red-400 p-4 m-4 w-40'>{{task}}</p>
+        </div>
+        `,
+        methods:{
+            remove(){
+                this.task="";
+            }
+        }
+      })
+      app.mount("body");
+    </script>
+  </body>
+</html>
