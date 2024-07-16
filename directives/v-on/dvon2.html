@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Show Food Image</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-gray-100">
+    <h1 class="text-2xl font-bold my-4">Example: Show Food Image</h1>
+
+    <p class="mb-4">Click on a food name below to see an image of it.</p>
+
+    <div id="app" class="border-dashed border-2 border-black w-56 p-5">
+      <img v-bind:src="imgUrl" class="float-right w-28" />
+      <ol class="list-none m-0 p-0">
+        <li
+          v-for="food in manyFoods"
+          v-on:click="imgUrl = food.url"
+          class="pl-1.5 rounded w-20 hover:cursor-pointer hover:bg-gray-200"
+        >
+          {{ food.name }}
+        </li>
+      </ol>
+    </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+      const app = Vue.createApp({
+        data() {
+          return {
+            imgUrl: "https://www.w3schools.com/vue/img_pizza.svg",
+            manyFoods: [
+              {
+                name: "Burrito",
+                url: "https://www.w3schools.com/vue/img_burrito.svg",
+              },
+              {
+                name: "Salad",
+                url: "https://www.w3schools.com/vue/img_salad.svg",
+              },
+              {
+                name: "Cake",
+                url: "https://www.w3schools.com/vue/img_cake.svg",
+              },
+              {
+                name: "Soup",
+                url: "https://www.w3schools.com/vue/img_soup.svg",
+              },
+              {
+                name: "Fish",
+                url: "https://www.w3schools.com/vue/img_fish.svg",
+              },
+              {
+                name: "Pizza",
+                url: "https://www.w3schools.com/vue/img_pizza.svg",
+              },
+              {
+                name: "Rice",
+                url: "https://www.w3schools.com/vue/img_rice.svg",
+              },
+            ],
+          };
+        },
+      });
+      app.mount("#app");
+    </script>
+  </body>
+</html>
