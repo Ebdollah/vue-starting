@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Events: Using Computed properties</title>
+    <!-- Include Tailwind CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-gray-100">
+    <!-- Navbar -->
+
+    <!-- Main content -->
+    <div id="app">
+      <input type="text" v-model="message" v-on:keyup.enter="sendMessage" />
+      <button v-on:click.once="handleClick">Click Me Once</button>
+    </div>
+
+    <!-- Vue.js -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+      // Vue app setup
+
+      let app = Vue.createApp({
+        data() {
+          return {
+            message: "",
+          };
+        },
+        methods: {
+          sendMessage() {
+            console.log("Message sent:", this.message);
+            // Additional logic for sending the message
+          },
+          handleClick() {
+            console.log("Button clicked once");
+            // Additional logic that should run only once
+          },
+        },
+      });
+
+      app.mount("body");
+    </script>
+  </body>
+</html>
