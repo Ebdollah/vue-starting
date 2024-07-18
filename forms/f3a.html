@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Restaurant Order</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="p-6 bg-gray-100">
+
+<h1 class="text-3xl font-bold mb-6 text-center">Example: Restaurant Order</h1>
+<p class="mb-6 text-center max-w-2xl mx-auto">
+  Here the user can order food and drinks from a menu. To limit the amount of choices in the drop-down list, the user first filter by choosing between 'Dinner', 'Drink' or 'Dessert'.
+</p>
+<div id="app" class="border border-dashed border-black px-8 py-6 bg-white rounded-lg max-w-lg mx-auto shadow-lg">
+  <form v-on:submit.prevent="addItem" class="space-y-4">
+    <div>
+      <h4 class="text-lg font-semibold mb-2">Order here:</h4>
+      <div class="space-y-2">
+        <label class="inline-flex items-center p-1 rounded hover:bg-gray-200 cursor-pointer">
+          <input type="radio" required value="Dinner" v-model="itemType" name="rbgType" class="form-radio mr-2">Dinner
+        </label><br>
+        <label class="inline-flex items-center p-1 rounded hover:bg-gray-200 cursor-pointer">
+          <input type="radio" required value="Drink" v-model="itemType" name="rbgType" class="form-radio mr-2">Drink
+        </label><br>
+        <label class="inline-flex items-center p-1 rounded hover:bg-gray-200 cursor-pointer">
+          <input type="radio" required value="Dessert" v-model="itemType" name="rbgType" class="form-radio mr-2">Dessert
+        </label>
+      </div>
+    </div>
+    <div v-show="itemType">
+      <label class="block">
+        <select required v-model="itemName" v-on:change="newUrl" class="border border-gray-300 rounded p-2 mt-1 w-full">
+          <option value="" selected disabled>Select item</option>
+          <option v-for="item in preDefItems" v-bind:value="item.name" v-show="item.type===itemType" v-bind:data-url="item.imgUrl">
+            {{ item.name }}
+          </option>
+        </select>
+      </label>
+    </div>
+    <div v-show="itemName">
+      <input type="number" placeholder="How many?" v-model="itemNumber" required class="border border-gray-300 rounded p-2 mt-1 w-full">
+    </div>
+    <div class="text-center">
+      <img v-bind:src="itemUrl" class="w-24 h-24 mx-auto mb-4">
+      <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-6 rounded">Order</button>
+    </div>
+  </form>
+  <br>
+  <hr class="my-4">
+
+  <div>
+    <h4 class="text-lg font-semibold mb-2">Your order:</h4>
+    <ul id="ulToFind" class="list-none space-y-2">
+      <li v-for="item in order" class="flex items-center justify-between bg-green-200 p-3 rounded-lg">
+        {{ item.name }}, {{ item.number }} <img v-bind:src="item.url" class="h-12">
+      </li>
+    </ul>
+  </div>
+</div>
+
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script>
+  const app = Vue.createApp({
+    data() {
+      return {
+        itemType: '',
+        itemName: '',
+        itemUrl: '',
+        itemNumber: null,
+        preDefItems: [
+          { name: 'Burrito', type: 'Dinner', imgUrl: 'https://www.w3schools.com/vue/img_burrito.svg' },
+          { name: 'Pizza', type: 'Dinner', imgUrl: 'https://www.w3schools.com/vue/img_pizza.svg' },
+          { name: 'Pho Soup', type: 'Dinner', imgUrl: 'https://www.w3schools.com/vue/img_soup.svg' },
+          { name: 'Spaghetti', type: 'Dinner', imgUrl: 'https://www.w3schools.com/vue/img_spaghetti.svg' },
+          { name: 'Fish', type: 'Dinner', imgUrl: 'https://www.w3schools.com/vue/img_fish.svg' },
+          { name: 'Cake', type: 'Dessert', imgUrl: 'https://www.w3schools.com/vue/img_cake.svg' },
+          { name: 'Rice', type: 'Dinner', imgUrl: 'https://www.w3schools.com/vue/img_rice.svg' },
+          { name: 'Salad', type: 'Dinner', imgUrl: 'https://www.w3schools.com/vue/img_salad.svg' },
+          { name: 'Coke', type: 'Drink', imgUrl: 'https://www.w3schools.com/vue/img_soda.svg' },
+          { name: 'Green Soda', type: 'Drink', imgUrl: 'https://www.w3schools.com/vue/img_greenSoda.svg' },
+          { name: 'Doughnut', type: 'Dessert', imgUrl: 'https://www.w3schools.com/vue/img_doughnut.svg' },
+          { name: 'Ice Cream', type: 'Dessert', imgUrl: 'https://www.w3schools.com/vue/img_iceCream.svg' },
+          { name: 'Lemonade', type: 'Drink', imgUrl: 'https://www.w3schools.com/vue/img_lemonade.svg' },
+          { name: 'Pancakes', type: 'Dessert', imgUrl: 'https://www.w3schools.com/vue/img_pancakes.svg' },
+          { name: 'Water', type: 'Drink', imgUrl: 'https://www.w3schools.com/vue/img_water.svg' }
+        ],
+        order: []
+      }
+    },
+    methods: {
+      addItem(){
+        let item = {
+          name: this.itemName,
+          number: this.itemNumber,
+          url: this.itemUrl
+        }
+        this.order.push(item)
+        this.itemType = ''
+        this.itemName = ''
+        this.itemNumber = null  
+        this.itemUrl = ''
+      },
+      newUrl(e) {
+        this.itemUrl = e.target.options[e.target.selectedIndex].getAttribute("data-url")
+      }
+    }
+  })
+ app.mount('#app')
+</script>
+
+</body>
+</html>

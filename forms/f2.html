@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Shopping List 3</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="p-6">
+
+<h1 class="text-2xl font-bold mb-4">Example: Mark Found Items</h1>
+<p class="mb-4">
+  In this version of our shopping list the user can mark found items by clicking them. Found items become visible in the found items list, and items not found yet appear in the top without strike through. All shopping list items are created in both lists with v-for, they are just made visible in one list or the other with v-show depending on the 'found' data property.
+</p>
+<p class="mb-4">
+  If you find an item, but you click the wrong item in the list, you can just click it again to correct the mistake.
+</p>
+<div id="app" class="border border-dashed border-black inline-block px-5 py-2.5">
+  <form v-on:submit.prevent="addItem">
+    <p>
+      What do you need? <br>
+      <input type="text" required placeholder="item name.." v-model="itemName" class="border border-gray-300 rounded p-2 mt-1">
+    </p>
+    <p>
+      How many? <br>
+      <input type="number" placeholder="number of items.." v-model="itemNumber" class="border border-gray-300 rounded p-2 mt-1">
+    </p>
+    <p>
+      Important?
+      <label class="inline-block p-1 rounded hover:bg-gray-200 cursor-pointer">
+        <input type="checkbox" v-model="itemImportant">
+        {{ itemImportant }}
+      </label>
+    </p>
+    <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded">Add item</button>
+  </form>
+  <br>
+  <hr class="my-4">
+
+  <div>
+    <p><strong>Shopping list:</strong></p>
+    <ul id="ulToFind" class="list-none">
+      <li 
+        v-for="item in shoppingList" 
+        v-bind:class="{ 'bg-red-200': item.important, 'bg-green-200': !item.important }"
+        class="my-1 p-1 rounded cursor-pointer hover:bg-gray-200"
+        v-on:click="item.found=!item.found"
+        v-show="!item.found">
+          {{ item.name }}, {{ item.number}}
+      </li>
+    </ul>
+    <ul id="ulFound" class="list-none">
+      <li 
+        v-for="item in shoppingList" 
+        v-bind:class="{ 'bg-red-200': item.important, 'bg-gray-200': !item.important }"
+        class="my-1 p-1 rounded cursor-pointer hover:bg-gray-200 line-through"
+        v-on:click="item.found=!item.found"
+        v-show="item.found">
+          {{ item.name }}, {{ item.number}}
+      </li>
+    </ul>
+  </div>
+</div>
+
+
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script>
+  const app = Vue.createApp({
+    data() {
+      return {
+        itemName: null,
+        itemNumber: null,
+        itemImportant: false,
+        shoppingList: [
+          { name: 'Tomatoes', number: 5, important: false, found: false },
+          { name: 'Bread', number: 1, important: false, found: false },
+          { name: 'Soap', number: 1, important: true, found: true }
+        ]
+      }
+    },
+    methods: {
+      addItem(){
+        let item = {
+          name: this.itemName,
+          number: this.itemNumber,
+          important: this.itemImportant,
+          found: false
+        }
+        this.shoppingList.push(item)
+        this.itemName = null
+        this.itemNumber = null  
+        this.itemImportant = false
+      }
+    }
+  })
+ app.mount('#app')
+</script>
+
+</body>
+</html>

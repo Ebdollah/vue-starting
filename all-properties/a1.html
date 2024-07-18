@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Vue Comprehensive Example with Tailwind CSS</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 p-8">
+
+<h1 class="text-2xl font-bold mb-4">Item List with Total Cost Calculation</h1>
+<div id="app" class="bg-white p-6 rounded-lg shadow-md">
+  <form v-on:submit.prevent="addItem" class="mb-6">
+    <div class="mb-4">
+      <label class="block text-gray-700 mb-2">Item:</label>
+      <input type="text" v-model="newItemName" class="w-full p-2 border rounded-lg">
+    </div>
+    <div class="mb-4">
+      <label class="block text-gray-700 mb-2">Price:</label>
+      <input type="number" v-model.number="newItemPrice" class="w-full p-2 border rounded-lg">
+    </div>
+    <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Add Item</button>
+  </form>
+
+  <ul>
+    <li v-for="(item, index) in items" :key="index" class="flex justify-between items-center mb-2 p-2 bg-gray-100 rounded-lg">
+      <span>{{ item.name }} - ${{ item.price }}</span>
+      <button @click="removeItem(index)" class="px-2 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600">Remove</button>
+    </li>
+  </ul>
+
+  <p class="mt-4 text-lg">Total Cost: ${{ totalCost }}</p>
+</div>
+
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script>
+  const app = Vue.createApp({
+    data() {
+      return {
+        newItemName: '',
+        newItemPrice: 0,
+        items: []
+      };
+    },
+    methods: {
+      addItem() {
+        if (this.newItemName && this.newItemPrice > 0) {
+          this.items.push({ name: this.newItemName, price: this.newItemPrice });
+          this.newItemName = '';
+          this.newItemPrice = 0;
+        }
+      },
+      removeItem(index) {
+        this.items.splice(index, 1);
+      }
+    },
+    computed: {
+      totalCost() {
+        return this.items.reduce((sum, item) => sum + item.price, 0);
+      }
+    },
+    watch: {
+      items: {
+        handler(newItems) {
+          console.log('Items changed:', newItems);
+        },
+        deep: true
+      }
+    }
+  });
+
+  app.mount('#app');
+</script>
+
+</body>
+</html>
