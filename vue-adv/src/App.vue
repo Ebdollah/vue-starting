@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
 <HelloWorld msg="Welcome to Your Vue.js App"/>
 </template>
 <script>
@@ -9,4 +9,59 @@ export default {
     HelloWorld
   }
 }
+</script> -->
+
+// Add your code here
+
+<template>
+  <div class="p-4">
+    <h1 class="text-2xl font-bold mb-4">Food</h1>
+    <p class="mb-2">The toggle button on the component emits an event to the parent "App.vue". The favorite status is modified in "App.vue", and the updated status is sent back to the component so that the image is toggled to reflect the favorite status.</p>
+    <p class="mb-6">The result looks exactly like before, but now the favorite status is modified where it should be in "App.vue" instead of in the "FoodItem.vue" component.</p>
+    <div id="wrapper" class="flex flex-wrap">
+      <food-item
+        v-for="x in foods"
+        :key="x.name"
+        :food-name="x.name"
+        :food-desc="x.desc"
+        :is-favorite="x.favorite"
+        @toggle-favorite="receiveEmit"
+        class="border border-dashed border-black flex-basis-120px m-2 p-2 bg-green-200"
+      />
+    </div> 
+  </div>
+</template>
+
+<script>
+import FoodItem from './components/FoodItem.vue';
+export default {
+  name: 'App',
+  data() { 
+    return {
+      foods: [
+        { name: 'Apples', desc: 'Apples are a type of fruit that grow on trees.', favorite: true },
+        { name: 'Pizza', desc: 'Pizza has a bread base with tomato sauce, cheese, and toppings on top.', favorite: false },
+        { name: 'Rice', desc: 'Rice is a type of grain that people like to eat.', favorite: false },
+        { name: 'Fish', desc: 'Fish is an animal that lives in water.', favorite: true },
+        { name: 'Cake', desc: 'Cake is something sweet that tastes good.', favorite: false }
+      ]
+    };
+  },
+  methods: {
+    receiveEmit(foodId) {
+      let foundFood = this.foods.find(food => food.name === foodId);
+      foundFood.favorite = !foundFood.favorite;
+    }
+  },
+  components: {
+    FoodItem
+  }
+}
 </script>
+
+<style scoped>
+  .flex-basis-120px {
+    flex-basis: 120px;
+  }
+</style>
+
